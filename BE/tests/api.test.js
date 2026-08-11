@@ -33,6 +33,39 @@ describe("Task API", () => {
     assert.equal(body.tasks[0].title, "Học Git");
   });
 
+  test("GET /api/tasks lọc theo priority", async () => {
+    store = new TaskStore([
+      { id: 1, title: "Học Git", assignee: "An", priority: "high", status: "todo" },
+      { id: 2, title: "Viết tài liệu", assignee: "Bình", priority: "low", status: "todo" },
+      { id: 3, title: "Review API", assignee: "Chi", priority: "high", status: "done" }
+    ]);
+
+    const response = await fetch(`${baseUrl}/api/tasks?priority=high`);
+    const body = await response.json();
+
+    assert.equal(response.status, 200);
+    assert.equal(body.total, 2);
+    assert.deepEqual(body.tasks.map((task) => task.id), [1, 3]);
+  });
+
+  test("GET /api/tasks kết hợp status, priority và q", async () => {
+    store = new TaskStore([
+      { id: 1, title: "Học Git", assignee: "An", priority: "high", status: "todo" },
+      { id: 2, title: "Viết API", assignee: "An", priority: "high", status: "doing" },
+      { id: 3, title: "Review API", assignee: "An", priority: "low", status: "todo" },
+      { id: 4, title: "Kiểm tra API", assignee: "Bình", priority: "high", status: "todo" }
+    ]);
+
+    const response = await fetch(
+      `${baseUrl}/api/tasks?status=todo&priority=high&q=an`
+    );
+    const body = await response.json();
+
+    assert.equal(response.status, 200);
+    assert.equal(body.total, 1);
+    assert.equal(body.tasks[0].id, 1);
+  });
+
   test("POST /api/tasks tạo công việc mới", async () => {
     const response = await fetch(`${baseUrl}/api/tasks`, {
       method: "POST",
@@ -75,4 +108,3 @@ describe("Task API", () => {
     assert.equal(response.status, 404);
   });
 });
-

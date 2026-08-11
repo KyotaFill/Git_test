@@ -44,6 +44,15 @@
             <span class="sr-only">Tìm công việc</span>
             <input id="search" type="search" placeholder="Tìm task hoặc thành viên…" />
           </label>
+          <label class="priority-filter">
+            <span class="sr-only">Lọc theo độ ưu tiên</span>
+            <select id="priority-filter">
+              <option value="all">Tất cả độ ưu tiên</option>
+              <option value="low">Thấp</option>
+              <option value="medium">Vừa</option>
+              <option value="high">Cao</option>
+            </select>
+          </label>
           <p id="summary">Đang tải công việc…</p>
         </div>
       </section>
@@ -75,4 +84,3 @@
     <script type="module" src="/app.js"></script>
   </body>
 </html>
-

@@ -63,6 +63,7 @@ export function createApp({ store = new TaskStore(seedTasks) } = {}) {
       if (request.method === "GET" && url.pathname === "/api/tasks") {
         const tasks = store.list({
           status: url.searchParams.get("status") || undefined,
+          priority: url.searchParams.get("priority") || undefined,
           query: url.searchParams.get("q") || undefined
         });
         return json(response, 200, { tasks, total: tasks.length });
@@ -110,4 +111,3 @@ export function createApp({ store = new TaskStore(seedTasks) } = {}) {
     }
   };
 }
-
