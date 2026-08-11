@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Bảng công việc dùng để thực hành Git theo team" />
+    <title>Git Team Task Board</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">TEAM WORKSPACE</p>
+        <h1>Git Team Task Board</h1>
+        <p class="subtitle">Chia nhỏ công việc. Tạo branch. Cùng nhau ship code.</p>
+      </div>
+      <div class="repo-status"><span></span> main is healthy</div>
+    </header>
+
+    <main>
+      <section class="toolbar" aria-label="Công cụ quản lý công việc">
+        <form id="task-form" class="task-form">
+          <label>
+            <span>Công việc mới</span>
+            <input id="title" name="title" minlength="3" placeholder="Ví dụ: Thêm dark mode" required />
+          </label>
+          <label>
+            <span>Người thực hiện</span>
+            <input id="assignee" name="assignee" placeholder="Tên thành viên" />
+          </label>
+          <label>
+            <span>Ưu tiên</span>
+            <select id="priority" name="priority">
+              <option value="low">Thấp</option>
+              <option value="medium" selected>Vừa</option>
+              <option value="high">Cao</option>
+            </select>
+          </label>
+          <button type="submit">+ Thêm task</button>
+        </form>
+
+        <div class="filters">
+          <label class="search">
+            <span class="sr-only">Tìm công việc</span>
+            <input id="search" type="search" placeholder="Tìm task hoặc thành viên…" />
+          </label>
+          <p id="summary">Đang tải công việc…</p>
+        </div>
+      </section>
+
+      <section id="board" class="board" aria-live="polite"></section>
+    </main>
+
+    <template id="column-template">
+      <article class="column">
+        <header><h2></h2><span class="count"></span></header>
+        <div class="task-list"></div>
+      </article>
+    </template>
+
+    <template id="task-template">
+      <article class="task-card">
+        <div class="task-topline"><span class="priority"></span><button class="delete" aria-label="Xoá task">×</button></div>
+        <h3></h3>
+        <div class="task-meta"><span class="avatar"></span><span class="assignee"></span></div>
+        <select class="status" aria-label="Trạng thái công việc">
+          <option value="todo">Cần làm</option>
+          <option value="doing">Đang làm</option>
+          <option value="done">Hoàn thành</option>
+        </select>
+      </article>
+    </template>
+
+    <div id="toast" class="toast" role="status"></div>
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
+

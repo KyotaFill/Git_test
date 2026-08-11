@@ -1,0 +1,15 @@
+{
+  "name": "git-team-task-board",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Project nhỏ để thực hành Git workflow theo team",
+  "scripts": {
+    "dev": "node --watch BE/server.js",
+    "start": "node BE/server.js",
+    "test": "node --test BE/tests/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
