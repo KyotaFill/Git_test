@@ -7,14 +7,15 @@ export class TaskStore {
     this.nextId = Math.max(0, ...this.tasks.map((task) => task.id)) + 1;
   }
 
-  list({ status, query } = {}) {
+  list({ status, priority, query } = {}) {
     const normalizedQuery = query?.trim().toLocaleLowerCase("vi") ?? "";
 
     return this.tasks.filter((task) => {
       const matchesStatus = !status || task.status === status;
+      const matchesPriority = !priority || task.priority === priority;
       const searchableText = `${task.title} ${task.assignee}`.toLocaleLowerCase("vi");
       const matchesQuery = !normalizedQuery || searchableText.includes(normalizedQuery);
-      return matchesStatus && matchesQuery;
+      return matchesStatus && matchesPriority && matchesQuery;
     });
   }
 
@@ -75,4 +76,3 @@ export function validateTask(input, { partial = false } = {}) {
 
   return errors;
 }
-
