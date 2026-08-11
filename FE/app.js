@@ -7,6 +7,7 @@ const columns = [
 const board = document.querySelector("#board");
 const form = document.querySelector("#task-form");
 const searchInput = document.querySelector("#search");
+const priorityFilter = document.querySelector("#priority-filter");
 const summary = document.querySelector("#summary");
 const toast = document.querySelector("#toast");
 const columnTemplate = document.querySelector("#column-template");
@@ -14,6 +15,7 @@ const taskTemplate = document.querySelector("#task-template");
 
 let tasks = [];
 let searchTerm = "";
+let selectedPriority = "all";
 
 async function api(path, options) {
   const response = await fetch(path, {
@@ -87,9 +89,14 @@ function createTaskCard(task) {
 function render() {
   board.replaceChildren();
   const normalizedSearch = searchTerm.trim().toLocaleLowerCase("vi");
-  const visibleTasks = tasks.filter((task) =>
-    `${task.title} ${task.assignee}`.toLocaleLowerCase("vi").includes(normalizedSearch)
-  );
+  const visibleTasks = tasks.filter((task) => {
+    const matchesSearch = `${task.title} ${task.assignee}`
+      .toLocaleLowerCase("vi")
+      .includes(normalizedSearch);
+    const matchesPriority = selectedPriority === "all" || task.priority === selectedPriority;
+
+    return matchesSearch && matchesPriority;
+  });
 
   for (const column of columns) {
     const fragment = columnTemplate.content.cloneNode(true);
@@ -113,7 +120,7 @@ function render() {
     board.append(fragment);
   }
 
-  summary.textContent = `${visibleTasks.length} công việc · ${tasks.filter((task) => task.status === "done").length} đã hoàn thành`;
+  summary.textContent = `${visibleTasks.length} công việc · ${visibleTasks.filter((task) => task.status === "done").length} đã hoàn thành`;
 }
 
 async function loadTasks() {
@@ -146,5 +153,9 @@ searchInput.addEventListener("input", (event) => {
   render();
 });
 
-loadTasks();
+priorityFilter.addEventListener("change", (event) => {
+  selectedPriority = event.target.value;
+  render();
+});
 
+loadTasks();
