@@ -103,6 +103,30 @@ describe("Task API", () => {
     assert.equal(body.task.status, "done");
   });
 
+  test("PATCH /api/tasks/:id cập nhật tiêu đề", async () => {
+    const response = await fetch(`${baseUrl}/api/tasks/1`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title: "Học Git nâng cao" })
+    });
+    const body = await response.json();
+
+    assert.equal(response.status, 200);
+    assert.equal(body.task.title, "Học Git nâng cao");
+  });
+
+  test("DELETE /api/tasks/:id xoá task thành công", async () => {
+    const response = await fetch(`${baseUrl}/api/tasks/1`, { method: "DELETE" });
+    const body = await response.json();
+
+    assert.equal(response.status, 200);
+    assert.equal(body.message, "Đã xoá công việc");
+
+    const check = await fetch(`${baseUrl}/api/tasks`);
+    const checkBody = await check.json();
+    assert.equal(checkBody.total, 0);
+  });
+
   test("DELETE /api/tasks/:id trả về 404 khi không tồn tại", async () => {
     const response = await fetch(`${baseUrl}/api/tasks/999`, { method: "DELETE" });
     assert.equal(response.status, 404);
