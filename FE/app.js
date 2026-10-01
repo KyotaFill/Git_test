@@ -8,6 +8,7 @@ const board = document.querySelector("#board");
 const form = document.querySelector("#task-form");
 const searchInput = document.querySelector("#search");
 const priorityFilter = document.querySelector("#priority-filter");
+const resetFiltersBtn = document.querySelector("#reset-filters");
 const summary = document.querySelector("#summary");
 const toast = document.querySelector("#toast");
 const columnTemplate = document.querySelector("#column-template");
@@ -16,6 +17,18 @@ const taskTemplate = document.querySelector("#task-template");
 let tasks = [];
 let searchTerm = "";
 let selectedPriority = "all";
+
+function formatDate(isoString) {
+  if (!isoString) return "";
+  const date = new Date(isoString);
+  return Number.isNaN(date.getTime())
+    ? ""
+    : date.toLocaleDateString("vi-VN", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric"
+      });
+}
 
 async function api(path, options) {
   const response = await fetch(path, {
@@ -53,6 +66,8 @@ function createTaskCard(task) {
   fragment.querySelector("h3").textContent = task.title;
   fragment.querySelector(".assignee").textContent = task.assignee;
   fragment.querySelector(".avatar").textContent = initials(task.assignee);
+  const dateEl = fragment.querySelector(".task-date");
+  if (dateEl) dateEl.textContent = formatDate(task.createdAt);
   priority.textContent = { low: "Thấp", medium: "Vừa", high: "Cao" }[task.priority];
   priority.dataset.priority = task.priority;
 
@@ -178,6 +193,15 @@ searchInput.addEventListener("input", (event) => {
 priorityFilter.addEventListener("change", (event) => {
   selectedPriority = event.target.value;
   render();
+});
+
+resetFiltersBtn?.addEventListener("click", () => {
+  searchInput.value = "";
+  searchTerm = "";
+  priorityFilter.value = "all";
+  selectedPriority = "all";
+  render();
+  showToast("Đã đặt lại bộ lọc");
 });
 
 loadTasks();

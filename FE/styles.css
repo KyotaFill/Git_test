@@ -50,10 +50,12 @@ button { border: 0; border-radius: 8px; cursor: pointer; }
 .task-form > button { align-self: end; padding: .78rem 1.15rem; color: white; background: var(--green); font-weight: 750; }
 .task-form > button:hover { background: #105a40; }
 
-.filters { display: grid; grid-template-columns: minmax(220px, 340px) minmax(170px, 210px) 1fr; align-items: center; gap: .75rem; margin: 1.5rem 0 1rem; }
+.filters { display: grid; grid-template-columns: minmax(200px, 320px) minmax(160px, 200px) auto 1fr; align-items: center; gap: .75rem; margin: 1.5rem 0 1rem; }
 .search { width: min(340px, 100%); }
 .search input { background: white; }
 .priority-filter select { background: white; }
+.btn-reset { padding: .72rem 1rem; border: 1px solid var(--line); border-radius: 8px; background: white; color: var(--muted); font-size: .85rem; font-weight: 600; cursor: pointer; transition: all .15s ease; }
+.btn-reset:hover { color: var(--ink); border-color: var(--muted); }
 #summary { justify-self: end; color: var(--muted); font-size: .86rem; }
 
 .board { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; align-items: start; }
@@ -76,6 +78,7 @@ button { border: 0; border-radius: 8px; cursor: pointer; }
 .delete { padding: 0 .25rem; color: #98a19d; background: transparent; font-size: 1.3rem; line-height: 1; }
 .delete:hover { color: #b83228; }
 .task-meta { justify-content: flex-start; gap: .45rem; color: var(--muted); font-size: .8rem; }
+.task-date { margin-left: auto; font-size: .74rem; color: var(--muted); }
 .avatar { display: grid; width: 1.7rem; height: 1.7rem; place-items: center; border-radius: 50%; color: var(--green); background: var(--green-light); font-size: .65rem; font-weight: 800; }
 .status { margin-top: .9rem; padding: .5rem; font-size: .8rem; }
 .empty { margin: 3rem 0; color: #8b9691; font-size: .85rem; text-align: center; }
