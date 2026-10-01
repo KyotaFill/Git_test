@@ -72,6 +72,28 @@ function createTaskCard(task) {
     }
   });
 
+  fragment.querySelector(".edit").addEventListener("click", async () => {
+    const newTitle = window.prompt("Nhập tiêu đề mới cho công việc:", task.title);
+    if (newTitle === null) return;
+    const trimmedTitle = newTitle.trim();
+    if (!trimmedTitle) {
+      showToast("Tiêu đề không được để trống", "error");
+      return;
+    }
+    if (trimmedTitle === task.title) return;
+
+    try {
+      await api(`/api/tasks/${task.id}`, {
+        method: "PATCH",
+        body: JSON.stringify({ title: trimmedTitle })
+      });
+      await loadTasks();
+      showToast("Đã cập nhật tiêu đề");
+    } catch (error) {
+      showToast(error.message, "error");
+    }
+  });
+
   fragment.querySelector(".delete").addEventListener("click", async () => {
     if (!window.confirm(`Xoá “${task.title}”?`)) return;
     try {
