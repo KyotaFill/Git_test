@@ -115,6 +115,18 @@ describe("Task API", () => {
     assert.equal(body.task.title, "Học Git nâng cao");
   });
 
+  test("PATCH /api/tasks/:id cập nhật người thực hiện", async () => {
+    const response = await fetch(`${baseUrl}/api/tasks/1`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ assignee: "Dũng" })
+    });
+    const body = await response.json();
+
+    assert.equal(response.status, 200);
+    assert.equal(body.task.assignee, "Dũng");
+  });
+
   test("DELETE /api/tasks/:id xoá task thành công", async () => {
     const response = await fetch(`${baseUrl}/api/tasks/1`, { method: "DELETE" });
     const body = await response.json();
